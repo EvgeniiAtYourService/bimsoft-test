@@ -94,9 +94,17 @@ const styles = createUseStyles({
         backgroundColor: '#e8e8e8',
       },
       '& tr th': {
-        borderBottom: 'none',
+        // borderBottom: 'none',
         width: '125px',
       },
+      '& td': {
+        cursor: 'pointer',
+      },
+    },
+  },
+  selectedUserRow: {
+    '& td:nth-child(n)': {
+      border: '3px solid black',
     },
   },
   tableButtons: {
@@ -114,6 +122,9 @@ const styles = createUseStyles({
       justifyContent: 'center',
       alignItems: 'center',
     },
+  },
+  disabledButton: {
+    opacity: '0.1',
   },
   tableButton: {},
 })

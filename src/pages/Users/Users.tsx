@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { IUsersProps } from './Users.props'
-import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styles from './Users.styles'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { IconButton } from '@mui/material'
@@ -9,26 +9,38 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha'
 import Loader from '../../components/Loader/Loader'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { fetchUsers } from '../../redux/action-creators/users'
+import { useActions } from '../../hooks/useActions'
 
 const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchUsers())
-  }, [])
-
-  const { users, error, isFetching } = useTypedSelector(
+  const { users, error, isFetching, fetched, selectedUsers } = useTypedSelector(
     (state) => state.usersState
   )
+  const { fetchUsers, sortUsers, selectUser, deleteUser } = useActions()
+  useEffect(() => {
+    if (!fetched) {
+      fetchUsers()
+    }
+  }, [])
+  const handleSortUsers = () => {
+    sortUsers()
+  }
+  const handleSelectUser = (userId: number) => {
+    selectUser(userId)
+  }
+  const handleDeleteUser = () => {
+    deleteUser()
+  }
   const classes = styles()
+  const navigate = useNavigate()
   return (
     <div className={classes.wrapper}>
       <div className={classes.header}>
         <div className={classes.icons}>
           <ArrowBackIosIcon />
+          <p onClick={() => navigate('/companies')}>companies</p>
           <DarkModeIcon />
         </div>
       </div>
@@ -61,7 +73,15 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
                     <Loader />
                   ) : (
                     users.map((user, i) => (
-                      <tr key={i}>
+                      <tr
+                        key={i}
+                        onClick={() => handleSelectUser(user.id)}
+                        className={
+                          selectedUsers.includes(user.id)
+                            ? classes.selectedUserRow
+                            : undefined
+                        }
+                      >
                         <td>{user.id}</td>
                         <td>{user.firstName}</td>
                         <td>{user.lastName}</td>
@@ -70,6 +90,7 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
                       </tr>
                     ))
                   )}
+                  {error && <p style={{ padding: '15px' }}>{error}</p>}
                 </tbody>
               </table>
             </div>
@@ -85,8 +106,17 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
                 </IconButton>
               </div>
               <div className={classes.tableButton}>
-                <IconButton>
-                  <DeleteForeverIcon />
+                {selectedUsers.length === 0 ? (
+                  <DeleteForeverIcon className={classes.disabledButton} />
+                ) : (
+                  <IconButton onClick={handleDeleteUser}>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                )}
+              </div>
+              <div className={classes.tableButton}>
+                <IconButton onClick={handleSortUsers}>
+                  <SortByAlphaIcon />
                 </IconButton>
               </div>
             </div>
