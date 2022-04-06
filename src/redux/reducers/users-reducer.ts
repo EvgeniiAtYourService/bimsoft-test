@@ -20,6 +20,7 @@ const initialState: IUsersState = {
     phone: '',
     email: '',
   },
+  searchField: '',
 }
 
 const usersReducer = (
@@ -187,6 +188,24 @@ const usersReducer = (
         },
       }
     // -- ADD MODAL
+    case UsersActionTypes.CHANGE_SEARCH_FIELD:
+      return {
+        ...state,
+        searchField: action.payload,
+      }
+    case UsersActionTypes.SEARCH_USER:
+      const filtered = state.users.filter(
+        (user) =>
+          user.firstName.toLowerCase() === state.searchField.toLowerCase()
+      )
+      if (filtered.length === 0) {
+        return copyState
+      } else {
+        return {
+          ...state,
+          users: filtered,
+        }
+      }
     default:
       return state
   }

@@ -84,3 +84,10 @@ export const addUser = () => ({
   type: UsersActionTypes.ADD_USER,
 })
 // -- ADD MODAL
+export const changeSearchField = (payload: string) => ({
+  type: UsersActionTypes.CHANGE_SEARCH_FIELD,
+  payload,
+})
+export const searchUser = () => ({
+  type: UsersActionTypes.SEARCH_USER,
+})

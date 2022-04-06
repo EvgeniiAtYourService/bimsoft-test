@@ -26,6 +26,7 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
     selectedUsers,
     editModal,
     addModal,
+    searchField,
   } = useTypedSelector((state) => state.usersState)
   const {
     fetchUsers,
@@ -46,6 +47,8 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
     addEmail,
     addPhone,
     addUser,
+    changeSearchField,
+    searchUser,
     // -- ADD USER MODAL
   } = useActions()
 
@@ -109,7 +112,12 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
     addUser()
   }
   // -- add user modal
-
+  const handleChangeSearchField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeSearchField(e.target.value)
+  }
+  const handleSearchUser = () => {
+    searchUser()
+  }
   const classes = styles()
   const navigate = useNavigate()
   return (
@@ -167,6 +175,7 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
         setActiveAddModal={setActiveAddModal}
       >
         <div className={classes.modal}>
+          <h3>Add user</h3>
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"
@@ -219,11 +228,18 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
         <div className={classes.container}>
           <h2 className={classes.heading}>Пользователи</h2>
           <p className={classes.notes}>Примечание к карточке</p>
-          <input
-            type="text"
-            className={classes.search}
-            placeholder="Найти..."
-          />
+          <div className={classes.searchWrapper}>
+            <input
+              type="text"
+              className={classes.search}
+              placeholder="Enter first name..."
+              value={searchField}
+              onChange={handleChangeSearchField}
+            />
+            <button className={classes.searchButton} onClick={handleSearchUser}>
+              Search
+            </button>
+          </div>
           <div className={classes.tableRow}>
             <div className={classes.table}>
               <table>

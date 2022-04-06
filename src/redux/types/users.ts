@@ -22,6 +22,7 @@ export interface IUsersState {
   selectedUsers: number[]
   editModal: IModal
   addModal: IModal
+  searchField: string
 }
 
 export enum UsersActionTypes {
@@ -46,6 +47,8 @@ export enum UsersActionTypes {
   ADD_PHONE = 'ADD_PHONE',
   ADD_USER = 'ADD_USER',
   // -- ADD MODAL
+  CHANGE_SEARCH_FIELD = 'CHANGE_SEARCH_FILED',
+  SEARCH_USER = 'SEARCH_USER',
 }
 
 interface fetchUsersAction {
@@ -119,6 +122,13 @@ interface addUser {
   type: UsersActionTypes.ADD_USER
 }
 // -- ADD MODAL
+interface changeSearchField {
+  type: UsersActionTypes.CHANGE_SEARCH_FIELD
+  payload: string
+}
+interface searchUser {
+  type: UsersActionTypes.SEARCH_USER
+}
 
 export type UsersAction =
   | fetchUsersAction
@@ -141,4 +151,6 @@ export type UsersAction =
   | addEmail
   | addPhone
   | addUser
-// -- ADD MODAL
+  // -- ADD MODAL
+  | changeSearchField
+  | searchUser
