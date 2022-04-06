@@ -14,11 +14,19 @@ import Loader from '../../components/Loader/Loader'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useActions } from '../../hooks/useActions'
 import EditUserModal from './EditUserModal/EditUserModal'
+import AddUserModal from './AddUserModal/AddUserModal'
 
 const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
   // REDUX
-  const { users, error, isFetching, fetched, selectedUsers, editModal } =
-    useTypedSelector((state) => state.usersState)
+  const {
+    users,
+    error,
+    isFetching,
+    fetched,
+    selectedUsers,
+    editModal,
+    addModal,
+  } = useTypedSelector((state) => state.usersState)
   const {
     fetchUsers,
     sortUsers,
@@ -32,6 +40,13 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
     changePhone,
     editUser,
     // -- EDIT MODAL
+    // ADD USER MODAL
+    addFirstName,
+    addLastName,
+    addEmail,
+    addPhone,
+    addUser,
+    // -- ADD USER MODAL
   } = useActions()
 
   useEffect(() => {
@@ -67,21 +82,44 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
   const handleEditUserPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     changePhone(e.target.value)
   }
-  const editEditUser = () => {
+  const handleEditButtonClick = () => {
     setActiveEditModal(false)
     editUser()
   }
   // -- edit modal
+  // add user modal
+  const [activeAddModal, setActiveAddModal] = useState<boolean>(false)
+  const handleAddUser = () => {
+    setActiveAddModal(true)
+  }
+  const handleAddFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addFirstName(e.target.value)
+  }
+  const handleAddLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addLastName(e.target.value)
+  }
+  const handleAddEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addEmail(e.target.value)
+  }
+  const handleAddPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    addPhone(e.target.value)
+  }
+  const handleAddButtonClick = () => {
+    setActiveAddModal(false)
+    addUser()
+  }
+  // -- add user modal
 
   const classes = styles()
   const navigate = useNavigate()
   return (
     <div className={classes.wrapper}>
+      {/* EDIT USER MODAL */}
       <EditUserModal
         activeEditModal={activeEditModal}
         setActiveEditModal={setActiveEditModal}
       >
-        <div className={classes.EditUserModal}>
+        <div className={classes.modal}>
           <h3>Edit user: {editModal.id}</h3>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -119,9 +157,56 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
             value={editModal.phone}
             onChange={handleEditUserPhone}
           />
-          <button onClick={editEditUser}>Edit</button>
+          <button onClick={handleEditButtonClick}>Edit</button>
         </div>
       </EditUserModal>
+      {/* -- EDIT USER MODAL */}
+      {/* ADD USER MODAL */}
+      <AddUserModal
+        activeAddModal={activeAddModal}
+        setActiveAddModal={setActiveAddModal}
+      >
+        <div className={classes.modal}>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            placeholder="First Name"
+            autoComplete="off"
+            value={addModal.firstName}
+            onChange={handleAddFirstName}
+          />
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Last Name"
+            autoComplete="off"
+            value={addModal.lastName}
+            onChange={handleAddLastName}
+          />
+          <label htmlFor="email">E-Mail</label>
+          <input
+            type="text"
+            id="email"
+            placeholder="E-Mail"
+            autoComplete="off"
+            value={addModal.email}
+            onChange={handleAddEmail}
+          />
+          <label htmlFor="Phone">Phone</label>
+          <input
+            type="text"
+            id="phone"
+            placeholder="Phone"
+            autoComplete="off"
+            value={addModal.phone}
+            onChange={handleAddPhone}
+          />
+          <button onClick={handleAddButtonClick}>Add user</button>
+        </div>
+      </AddUserModal>
+      {/* -- ADD USER MODAL */}
       <div className={classes.header}>
         <div className={classes.icons}>
           <ArrowBackIosIcon />
@@ -181,7 +266,7 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
             </div>
             <div className={classes.tableButtons}>
               <div className={classes.tableButton}>
-                <IconButton>
+                <IconButton onClick={handleAddUser}>
                   <AddIcon />
                 </IconButton>
               </div>

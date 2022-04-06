@@ -127,7 +127,7 @@ const styles = createUseStyles({
     opacity: '0.1',
   },
   tableButton: {},
-  EditUserModal: {
+  modal: {
     '& label': {
       display: 'block',
       width: '300px',

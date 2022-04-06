@@ -6,7 +6,7 @@ export interface IUser {
   phone: string
 }
 
-export interface IEditModal {
+export interface IModal {
   id: number
   firstName: string
   lastName: string
@@ -20,7 +20,8 @@ export interface IUsersState {
   error: null | string
   fetched: boolean
   selectedUsers: number[]
-  editModal: IEditModal
+  editModal: IModal
+  addModal: IModal
 }
 
 export enum UsersActionTypes {
@@ -38,6 +39,13 @@ export enum UsersActionTypes {
   CHANGE_PHONE = 'CHANGE_PHONE',
   EDIT_USER = 'EDIT_USER',
   // -- EDIT MODAL
+  // ADD MODAL
+  ADD_FIRST_NAME = 'ADD_FIRST_NAME',
+  ADD_LAST_NAME = 'ADD_LAST_NAME',
+  ADD_EMAIL = 'ADD_EMAIL',
+  ADD_PHONE = 'ADD_PHONE',
+  ADD_USER = 'ADD_USER',
+  // -- ADD MODAL
 }
 
 interface fetchUsersAction {
@@ -90,6 +98,27 @@ interface editUser {
   type: UsersActionTypes.EDIT_USER
 }
 // -- EDIT MODAL
+// ADD MODAL
+interface addFirstName {
+  type: UsersActionTypes.ADD_FIRST_NAME
+  payload: string
+}
+interface addLastName {
+  type: UsersActionTypes.ADD_LAST_NAME
+  payload: string
+}
+interface addEmail {
+  type: UsersActionTypes.ADD_EMAIL
+  payload: string
+}
+interface addPhone {
+  type: UsersActionTypes.ADD_PHONE
+  payload: string
+}
+interface addUser {
+  type: UsersActionTypes.ADD_USER
+}
+// -- ADD MODAL
 
 export type UsersAction =
   | fetchUsersAction
@@ -105,4 +134,11 @@ export type UsersAction =
   | changeEmailAction
   | changePhoneAction
   | editUser
-// -- EDIT MODAL
+  // -- EDIT MODAL
+  // ADD MODAL
+  | addFirstName
+  | addLastName
+  | addEmail
+  | addPhone
+  | addUser
+// -- ADD MODAL

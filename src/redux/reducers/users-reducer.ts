@@ -13,6 +13,13 @@ const initialState: IUsersState = {
     phone: '',
     email: '',
   },
+  addModal: {
+    id: Math.floor(Math.random() * 1000) + 1000,
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+  },
 }
 
 const usersReducer = (
@@ -76,6 +83,7 @@ const usersReducer = (
       } else {
         return state
       }
+    // EDIT MODAL
     case UsersActionTypes.SET_EDIT_MODAL:
       return {
         ...state,
@@ -123,6 +131,62 @@ const usersReducer = (
       )
       copyState.users.splice(index, 1, { ...copyState.editModal })
       return copyState
+    // -- EDIT MODAL
+    // ADD MODAL
+    case UsersActionTypes.ADD_FIRST_NAME:
+      return {
+        ...state,
+        addModal: {
+          ...state.addModal,
+          firstName: action.payload,
+        },
+      }
+    case UsersActionTypes.ADD_LAST_NAME:
+      return {
+        ...state,
+        addModal: {
+          ...state.addModal,
+          lastName: action.payload,
+        },
+      }
+    case UsersActionTypes.ADD_EMAIL:
+      return {
+        ...state,
+        addModal: {
+          ...state.addModal,
+          email: action.payload,
+        },
+      }
+    case UsersActionTypes.ADD_PHONE:
+      return {
+        ...state,
+        addModal: {
+          ...state.addModal,
+          phone: action.payload,
+        },
+      }
+    case UsersActionTypes.ADD_USER:
+      return {
+        ...state,
+        users: [
+          ...state.users,
+          {
+            id: state.addModal.id,
+            firstName: state.addModal.firstName,
+            lastName: state.addModal.lastName,
+            email: state.addModal.email,
+            phone: state.addModal.phone,
+          },
+        ],
+        addModal: {
+          id: Math.floor(Math.random() * 1000) + 1000,
+          firstName: '',
+          lastName: '',
+          phone: '',
+          email: '',
+        },
+      }
+    // -- ADD MODAL
     default:
       return state
   }
