@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { IUsersProps } from './Users.props'
-import { useNavigate } from 'react-router-dom'
 import styles from './Users.styles'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { IconButton } from '@mui/material'
-import LightModeIcon from '@mui/icons-material/LightMode'
+// import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
@@ -16,7 +14,7 @@ import { useActions } from '../../hooks/useActions'
 import EditUserModal from './EditUserModal/EditUserModal'
 import AddUserModal from './AddUserModal/AddUserModal'
 
-const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
+const Users: React.FunctionComponent = (): JSX.Element => {
   // REDUX
   const {
     users,
@@ -119,7 +117,6 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
     searchUser()
   }
   const classes = styles()
-  const navigate = useNavigate()
   return (
     <div className={classes.wrapper}>
       {/* EDIT USER MODAL */}
@@ -219,7 +216,6 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
       <div className={classes.header}>
         <div className={classes.icons}>
           <ArrowBackIosIcon />
-          <p onClick={() => navigate('/companies')}>companies</p>
           <DarkModeIcon />
         </div>
       </div>
@@ -252,8 +248,6 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
                     <th>Phone</th>
                   </tr>
                 </thead>
-                <span></span>
-                <span></span>
                 <tbody>
                   {isFetching ? (
                     <Loader />
