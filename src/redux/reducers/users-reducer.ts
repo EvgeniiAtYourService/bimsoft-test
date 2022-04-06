@@ -6,6 +6,13 @@ const initialState: IUsersState = {
   error: null,
   fetched: false,
   selectedUsers: [],
+  editModal: {
+    id: -1,
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+  },
 }
 
 const usersReducer = (
@@ -69,6 +76,53 @@ const usersReducer = (
       } else {
         return state
       }
+    case UsersActionTypes.SET_EDIT_MODAL:
+      return {
+        ...state,
+        editModal: {
+          ...state.users.filter(
+            (user) => user.id === state.selectedUsers[0]
+          )[0],
+        },
+      }
+    case UsersActionTypes.CHANGE_FIRST_NAME:
+      return {
+        ...state,
+        editModal: {
+          ...state.editModal,
+          firstName: action.payload,
+        },
+      }
+    case UsersActionTypes.CHANGE_LAST_NAME:
+      return {
+        ...state,
+        editModal: {
+          ...state.editModal,
+          lastName: action.payload,
+        },
+      }
+    case UsersActionTypes.CHANGE_EMAIL:
+      return {
+        ...state,
+        editModal: {
+          ...state.editModal,
+          email: action.payload,
+        },
+      }
+    case UsersActionTypes.CHANGE_PHONE:
+      return {
+        ...state,
+        editModal: {
+          ...state.editModal,
+          phone: action.payload,
+        },
+      }
+    case UsersActionTypes.EDIT_USER:
+      const index = copyState.users.indexOf(
+        state.users.filter((user) => user.id === state.selectedUsers[0])[0]
+      )
+      copyState.users.splice(index, 1, { ...copyState.editModal })
+      return copyState
     default:
       return state
   }

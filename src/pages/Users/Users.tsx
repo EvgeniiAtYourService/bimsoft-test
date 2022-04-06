@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IUsersProps } from './Users.props'
 import { useNavigate } from 'react-router-dom'
 import styles from './Users.styles'
@@ -13,12 +13,27 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha'
 import Loader from '../../components/Loader/Loader'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useActions } from '../../hooks/useActions'
+import EditUserModal from './EditUserModal/EditUserModal'
 
 const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
-  const { users, error, isFetching, fetched, selectedUsers } = useTypedSelector(
-    (state) => state.usersState
-  )
-  const { fetchUsers, sortUsers, selectUser, deleteUser } = useActions()
+  // REDUX
+  const { users, error, isFetching, fetched, selectedUsers, editModal } =
+    useTypedSelector((state) => state.usersState)
+  const {
+    fetchUsers,
+    sortUsers,
+    selectUser,
+    deleteUser,
+    // EDIT MODAL
+    setEditModal,
+    changeFirstName,
+    changeLastName,
+    changeEmail,
+    changePhone,
+    editUser,
+    // -- EDIT MODAL
+  } = useActions()
+
   useEffect(() => {
     if (!fetched) {
       fetchUsers()
@@ -33,10 +48,80 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
   const handleDeleteUser = () => {
     deleteUser()
   }
+  // -- REDUX
+  // edit modal
+  const [activeEditModal, setActiveEditModal] = useState<boolean>(false)
+  const handleEditUser = () => {
+    setEditModal()
+    setActiveEditModal(true)
+  }
+  const handleEditUserFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeFirstName(e.target.value)
+  }
+  const handleEditUserLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeLastName(e.target.value)
+  }
+  const handleEditUserEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeEmail(e.target.value)
+  }
+  const handleEditUserPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changePhone(e.target.value)
+  }
+  const editEditUser = () => {
+    setActiveEditModal(false)
+    editUser()
+  }
+  // -- edit modal
+
   const classes = styles()
   const navigate = useNavigate()
   return (
     <div className={classes.wrapper}>
+      <EditUserModal
+        activeEditModal={activeEditModal}
+        setActiveEditModal={setActiveEditModal}
+      >
+        <div className={classes.EditUserModal}>
+          <h3>Edit user: {editModal.id}</h3>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            placeholder="First Name"
+            autoComplete="off"
+            value={editModal.firstName}
+            onChange={handleEditUserFirstName}
+          />
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Last Name"
+            autoComplete="off"
+            value={editModal.lastName}
+            onChange={handleEditUserLastName}
+          />
+          <label htmlFor="email">E-Mail</label>
+          <input
+            type="text"
+            id="email"
+            placeholder="E-Mail"
+            autoComplete="off"
+            value={editModal.email}
+            onChange={handleEditUserEmail}
+          />
+          <label htmlFor="Phone">Phone</label>
+          <input
+            type="text"
+            id="phone"
+            placeholder="Phone"
+            autoComplete="off"
+            value={editModal.phone}
+            onChange={handleEditUserPhone}
+          />
+          <button onClick={editEditUser}>Edit</button>
+        </div>
+      </EditUserModal>
       <div className={classes.header}>
         <div className={classes.icons}>
           <ArrowBackIosIcon />
@@ -47,7 +132,7 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
       <div className={classes.sidebar}>213</div>
       <div className={classes.body}>
         <div className={classes.container}>
-          <h2 className={classes.heading}>Заголовок карточки</h2>
+          <h2 className={classes.heading}>Пользователи</h2>
           <p className={classes.notes}>Примечание к карточке</p>
           <input
             type="text"
@@ -101,9 +186,13 @@ const Users: React.FunctionComponent<IUsersProps> = (): JSX.Element => {
                 </IconButton>
               </div>
               <div className={classes.tableButton}>
-                <IconButton>
-                  <EditIcon />
-                </IconButton>
+                {selectedUsers.length !== 1 ? (
+                  <EditIcon className={classes.disabledButton} />
+                ) : (
+                  <IconButton onClick={handleEditUser}>
+                    <EditIcon />
+                  </IconButton>
+                )}
               </div>
               <div className={classes.tableButton}>
                 {selectedUsers.length === 0 ? (

@@ -127,6 +127,41 @@ const styles = createUseStyles({
     opacity: '0.1',
   },
   tableButton: {},
+  EditUserModal: {
+    '& label': {
+      display: 'block',
+      width: '300px',
+      margin: '0 auto 15px',
+      fontWeight: 500,
+    },
+    '& input': {
+      display: 'block',
+      margin: '0 auto 15px',
+      height: 40,
+      padding: '10px 14px',
+      borderRadius: 5,
+      width: 300,
+      border: '0.5px solid grey',
+      outline: 'none',
+    },
+    '& h3': {
+      marginBottom: 10,
+      textAlign: 'center',
+    },
+    '& button': {
+      margin: '30px auto 10px',
+      display: 'block',
+      width: 170,
+      padding: '10px 0',
+      cursor: 'pointer',
+      borderRadius: 5,
+      border: 'none',
+      transition: '0.5s all',
+      '&:hover': {
+        backgroundColor: '#C8C8C8',
+      },
+    },
+  },
 })
 
 export default styles

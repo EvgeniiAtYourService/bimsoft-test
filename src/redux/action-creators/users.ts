@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { UsersAction, UsersActionTypes } from '../types/users'
+import { IEditModal, UsersAction, UsersActionTypes } from '../types/users'
 
 export const fetchUsers = () => {
   return async (dispatch: Dispatch<UsersAction>) => {
@@ -39,3 +39,27 @@ export const selectUser = (userId: number): UsersAction => ({
 export const deleteUser = (): UsersAction => ({
   type: UsersActionTypes.DELETE_USER,
 })
+// EDIT MODAL
+export const setEditModal = () => ({
+  type: UsersActionTypes.SET_EDIT_MODAL,
+})
+export const changeFirstName = (payload: string) => ({
+  type: UsersActionTypes.CHANGE_FIRST_NAME,
+  payload,
+})
+export const changeLastName = (payload: string) => ({
+  type: UsersActionTypes.CHANGE_LAST_NAME,
+  payload,
+})
+export const changeEmail = (payload: string) => ({
+  type: UsersActionTypes.CHANGE_EMAIL,
+  payload,
+})
+export const changePhone = (payload: string) => ({
+  type: UsersActionTypes.CHANGE_PHONE,
+  payload,
+})
+export const editUser = () => ({
+  type: UsersActionTypes.EDIT_USER,
+})
+// -- EDIT MODAL
