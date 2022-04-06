@@ -4,12 +4,16 @@ const styles = createUseStyles({
   wrapper: {
     minHeight: '100vh',
     maxWidth: 1300,
+    minWidth: 600,
     margin: '0 auto',
-    border: '1px solid gray',
+    //     display: 'grid',
+    // gridTemplateRows: '5vh 95vh',
+    //     gridTemplateAreas: `'header''body'`,
   },
   header: {
     height: 56,
-    border: '1px solid gray',
+    // gridArea: 'header',
+    backgroundColor: '#E8E8E8',
     display: 'flex',
     alignItems: 'center',
   },
@@ -28,16 +32,16 @@ const styles = createUseStyles({
     display: 'none',
   },
   body: {
+    // gridArea: 'body',
     padding: 24,
-    height: '1fr',
-    backgroundColor: 'blue',
+    backgroundColor: '#F5F5F5',
   },
   container: {
     padding: 24,
-    backgroundColor: 'green',
   },
   heading: {
-    width: 220,
+    // width: 220,
+    width: 230,
     marginBottom: 8,
   },
   notes: {
@@ -48,22 +52,55 @@ const styles = createUseStyles({
     height: 40,
     minWidth: 450,
     borderRadius: 5,
+    border: '1px solid black',
     outline: 'none',
     padding: '0 15px',
-    border: 'none',
     marginBottom: 24,
   },
   tableRow: {
     display: 'flex',
   },
   table: {
-    backgroundColor: 'purple',
+    backgroundColor: 'white',
     width: '90%',
-    height: 400,
+    minWidth: 650,
+    height: 587,
     position: 'relative',
+    //scroll
+    overflow: 'scroll',
+    '&::-webkit-scrollbar': {
+      height: 8,
+      width: 8,
+    },
+    '&::-webkit-scrollbar-track': {
+      background: 'white',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#c4c4c4',
+      borderRadius: 20,
+    },
+    //--scroll
+    '& table': {
+      width: '100%',
+      borderCollapse: 'collapse',
+      '& td, th': {
+        border: '1px solid black',
+        padding: 7,
+        textAlign: 'center',
+      },
+      '& thead': {
+        position: 'sticky',
+        top: -1,
+        backgroundColor: '#e8e8e8',
+      },
+      '& tr th': {
+        borderBottom: 'none',
+        width: '125px',
+      },
+    },
   },
   tableButtons: {
-    backgroundColor: 'azure',
+    backgroundColor: '#F5F5F5',
     width: '10%',
     minWidth: 78,
     display: 'flex',
@@ -72,7 +109,6 @@ const styles = createUseStyles({
     '& $tableButton': {
       width: 48,
       height: 48,
-      backgroundColor: 'azure',
       marginBottom: 16,
       display: 'flex',
       justifyContent: 'center',
