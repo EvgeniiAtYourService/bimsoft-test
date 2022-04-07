@@ -9,6 +9,7 @@ const styles = createUseStyles({
     //     display: 'grid',
     // gridTemplateRows: '5vh 95vh',
     //     gridTemplateAreas: `'header''body'`,
+    position: 'relative',
   },
   header: {
     height: 56,
@@ -28,8 +29,78 @@ const styles = createUseStyles({
       cursor: 'pointer',
     },
   },
+  arrowIcon: {
+    zIndex: '20000',
+  },
+  arrowIconActive: {
+    transform: 'rotate(180deg)',
+  },
   sidebar: {
     display: 'none',
+  },
+  sidePanel: {
+    backgroundColor: '#E8E8E8',
+    position: 'absolute',
+    width: '200px',
+    left: -220,
+    top: 10,
+    minHeight: 450,
+    borderRadius: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 5,
+    zIndex: '30000',
+    '& a': {
+      marginBottom: 15,
+      textDecoration: 'none',
+      color: 'black',
+    },
+    '& p': {
+      marginBottom: 15,
+    },
+  },
+  '@media (max-width: 1760px)': {
+    sidePanel: {
+      top: 66,
+      left: 10,
+    },
+  },
+  signInBlock: {
+    padding: 10,
+    border: '1px solid grey',
+    borderRadius: '5px',
+    '& button': {
+      padding: 4,
+      borderRadius: '5px',
+      border: '1px solid grey',
+      cursor: 'pointer',
+      '&:active': {
+        position: 'relative',
+        bottom: 1,
+      },
+    },
+    '& input': {
+      width: 150,
+      height: 30,
+      padding: 5,
+      marginBottom: 15,
+      borderRadius: 5,
+      border: 'none',
+      outline: 'none',
+    },
+    '& label': {
+      display: 'block',
+      marginBottom: 5,
+    },
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  logo: {
+    borderRadius: 10,
+    margin: '15px 0',
   },
   body: {
     // gridArea: 'body',

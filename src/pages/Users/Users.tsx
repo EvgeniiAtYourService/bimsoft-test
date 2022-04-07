@@ -13,6 +13,8 @@ import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useActions } from '../../hooks/useActions'
 import EditUserModal from './EditUserModal/EditUserModal'
 import AddUserModal from './AddUserModal/AddUserModal'
+import logo from '../../../src/assets/logo.png'
+import { Link } from 'react-router-dom'
 
 const Users: React.FunctionComponent = (): JSX.Element => {
   // REDUX
@@ -117,6 +119,12 @@ const Users: React.FunctionComponent = (): JSX.Element => {
     searchUser()
   }
   const classes = styles()
+  // MENU
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const handleOpenMenu = () => {
+    setIsOpen(!isOpen)
+  }
+  // -- MENU
   return (
     <div className={classes.wrapper}>
       {/* EDIT USER MODAL */}
@@ -213,9 +221,35 @@ const Users: React.FunctionComponent = (): JSX.Element => {
         </div>
       </AddUserModal>
       {/* -- ADD USER MODAL */}
+      {/* SIDEPANEL */}
+      {isOpen && (
+        <div className={classes.sidePanel}>
+          <img src={logo} alt="BIMSoft" className={classes.logo} />
+          <Link to="/users">Users</Link>
+          <Link to="/companies">Companies</Link>
+          <div className={classes.signInBlock}>
+            <label htmlFor="signInEmail">E-Mail</label>
+            <input type="email" id="signInEmail" />
+            <label htmlFor="signInPassword">Password</label>
+            <input type="password" id="signInPassword" />
+            <div className={classes.buttons}>
+              <button>Sign In</button>
+              <button>Sign Out</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* -- SIDEPANEL */}
       <div className={classes.header}>
         <div className={classes.icons}>
-          <ArrowBackIosIcon />
+          <ArrowBackIosIcon
+            className={
+              isOpen
+                ? `${classes.arrowIcon} ${classes.arrowIconActive}`
+                : classes.arrowIcon
+            }
+            onClick={handleOpenMenu}
+          />
           <DarkModeIcon />
         </div>
       </div>
