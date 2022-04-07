@@ -25,6 +25,10 @@ const styles = createUseStyles({
       cursor: 'pointer',
     },
   },
+  themeIcon: {
+    opacity: '0.4',
+    cursor: 'pointer',
+  },
   sidebar: {
     display: 'none',
   },

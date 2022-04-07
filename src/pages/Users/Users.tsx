@@ -72,6 +72,7 @@ const Users: React.FunctionComponent = (): JSX.Element => {
   const handleEditUser = () => {
     setEditModal()
     setActiveEditModal(true)
+    setIsOpen(false)
   }
   const handleEditUserFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     changeFirstName(e.target.value)
@@ -94,6 +95,7 @@ const Users: React.FunctionComponent = (): JSX.Element => {
   const [activeAddModal, setActiveAddModal] = useState<boolean>(false)
   const handleAddUser = () => {
     setActiveAddModal(true)
+    setIsOpen(false)
   }
   const handleAddFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     addFirstName(e.target.value)

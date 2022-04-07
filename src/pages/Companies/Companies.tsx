@@ -117,7 +117,7 @@ const Companies: React.FunctionComponent = () => {
             }
             onClick={handleOpenMenu}
           />
-          <DarkModeIcon />
+          <DarkModeIcon className={classes.themeIcon} />
         </div>
       </div>
       <div className={classes.sidebar}>213</div>
