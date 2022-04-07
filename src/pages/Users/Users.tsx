@@ -124,7 +124,46 @@ const Users: React.FunctionComponent = (): JSX.Element => {
   const handleOpenMenu = () => {
     setIsOpen(!isOpen)
   }
+  const [userData, setUserData] = useState<{
+    email: string
+    password: string
+  }>({
+    email: '',
+    password: '',
+  })
+  const handleSignIn = () => {
+    if (userData.email && userData.password) {
+      window.localStorage.setItem(
+        'user',
+        JSON.stringify({ email: userData.email, password: userData.password })
+      )
+      setUserData({
+        email: '',
+        password: '',
+      })
+    }
+  }
+  const handleChangeSignInEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData((prev) => ({
+      ...prev,
+      email: e.target.value,
+    }))
+  }
+  const handleChangeSignInPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUserData((prev) => ({
+      ...prev,
+      password: e.target.value,
+    }))
+  }
+  const handleSignOut = () => {
+    window.localStorage.clear()
+    setIsOpen(false)
+  }
   // -- MENU
+  // @ts-ignore
+  const authed = JSON.parse(window.localStorage.getItem('user'))
   return (
     <div className={classes.wrapper}>
       {/* EDIT USER MODAL */}
@@ -134,37 +173,37 @@ const Users: React.FunctionComponent = (): JSX.Element => {
       >
         <div className={classes.modal}>
           <h3>Edit user: {editModal.id}</h3>
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstNameEdit">First Name</label>
           <input
             type="text"
-            id="firstName"
+            id="firstNameEdit"
             placeholder="First Name"
             autoComplete="off"
             value={editModal.firstName}
             onChange={handleEditUserFirstName}
           />
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastNameEdit">Last Name</label>
           <input
             type="text"
-            id="lastName"
+            id="lastNameEdit"
             placeholder="Last Name"
             autoComplete="off"
             value={editModal.lastName}
             onChange={handleEditUserLastName}
           />
-          <label htmlFor="email">E-Mail</label>
+          <label htmlFor="emailEdit">E-Mail</label>
           <input
             type="text"
-            id="email"
+            id="emailEdit"
             placeholder="E-Mail"
             autoComplete="off"
             value={editModal.email}
             onChange={handleEditUserEmail}
           />
-          <label htmlFor="Phone">Phone</label>
+          <label htmlFor="phoneEdit">Phone</label>
           <input
             type="text"
-            id="phone"
+            id="phoneEdit"
             placeholder="Phone"
             autoComplete="off"
             value={editModal.phone}
@@ -226,17 +265,43 @@ const Users: React.FunctionComponent = (): JSX.Element => {
         <div className={classes.sidePanel}>
           <img src={logo} alt="BIMSoft" className={classes.logo} />
           <Link to="/users">Users</Link>
-          <Link to="/companies">Companies</Link>
+          <Link
+            to={authed ? '/companies' : '/users'}
+            className={!authed ? classes.disabledCompanies : undefined}
+          >
+            Companies
+          </Link>
           <div className={classes.signInBlock}>
             <label htmlFor="signInEmail">E-Mail</label>
-            <input type="email" id="signInEmail" />
+            <input
+              type="email"
+              id="signInEmail"
+              value={userData.email}
+              onChange={handleChangeSignInEmail}
+              autoComplete="off"
+              readOnly={authed && true}
+              className={authed && classes.inputDisabled}
+            />
             <label htmlFor="signInPassword">Password</label>
-            <input type="password" id="signInPassword" />
+            <input
+              type="password"
+              id="signInPassword"
+              value={userData.password}
+              onChange={handleChangeSignInPassword}
+              autoComplete="off"
+              readOnly={authed && true}
+              className={authed && classes.inputDisabled}
+            />
             <div className={classes.buttons}>
-              <button>Sign In</button>
-              <button>Sign Out</button>
+              <button onClick={handleSignIn} disabled={authed && true}>
+                Sign In
+              </button>
+              <button onClick={handleSignOut} disabled={!authed && true}>
+                Sign Out
+              </button>
             </div>
           </div>
+          {authed && <p style={{ marginTop: '20px' }}>{authed.email}</p>}
         </div>
       )}
       {/* -- SIDEPANEL */}
@@ -250,14 +315,14 @@ const Users: React.FunctionComponent = (): JSX.Element => {
             }
             onClick={handleOpenMenu}
           />
-          <DarkModeIcon />
+          <DarkModeIcon className={classes.themeIcon} />
         </div>
       </div>
       <div className={classes.sidebar}>213</div>
       <div className={classes.body}>
         <div className={classes.container}>
-          <h2 className={classes.heading}>Пользователи</h2>
-          <p className={classes.notes}>Примечание к карточке</p>
+          <h2 className={classes.heading}>Users</h2>
+          <p className={classes.notes}>Users notes</p>
           <div className={classes.searchWrapper}>
             <input
               type="text"

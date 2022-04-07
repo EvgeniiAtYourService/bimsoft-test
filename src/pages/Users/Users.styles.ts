@@ -29,6 +29,10 @@ const styles = createUseStyles({
       cursor: 'pointer',
     },
   },
+  themeIcon: {
+    opacity: '0.4',
+    cursor: 'pointer',
+  },
   arrowIcon: {
     zIndex: '20000',
   },
@@ -44,7 +48,7 @@ const styles = createUseStyles({
     width: '200px',
     left: -220,
     top: 10,
-    minHeight: 450,
+    minHeight: 480,
     borderRadius: '10px',
     display: 'flex',
     flexDirection: 'column',
@@ -94,9 +98,17 @@ const styles = createUseStyles({
       marginBottom: 5,
     },
   },
+  inputDisabled: {
+    opacity: '0.5',
+    cursor: 'default',
+  },
   buttons: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  disabledCompanies: {
+    cursor: 'default',
+    opacity: '0.4',
   },
   logo: {
     borderRadius: 10,

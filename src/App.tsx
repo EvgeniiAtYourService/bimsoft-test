@@ -12,7 +12,18 @@ const App: React.FunctionComponent<IAppProps> = () => {
       <BrowserRouter>
         <Routes>
           <Route path="users" element={<Users />} />
-          <Route path="companies" element={<Companies />} />
+          <Route
+            path="companies"
+            // element={
+            // @ts-ignore
+            //   !JSON.parse(window.localStorage.getItem('user')) ? (
+            //     <Navigate to="/users" />
+            //   ) : (
+            //     <Companies />
+            //   )
+            // }
+            element={<Companies />}
+          />
           <Route path="*" element={<Navigate to="/users" />} />
         </Routes>
       </BrowserRouter>
